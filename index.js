@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-// const db = require("./config");
+const db = require("./config");
 const app = express();
 const suggestionsController = require('./controllers/suggestions'); 
 app.use(express.json());
@@ -32,6 +32,11 @@ app.post("/create-collections", async (req, res) => {
 
 app.get("/collection/", suggestionsController.print);
 
+app.get("/products/", suggestionsController.getProductByCategory);
 
 
-app.listen(4000, () => console.log("Up & RUnning *4000"));
+app.get("/key/", suggestionsController.procesingData);
+
+
+
+app.listen(8080, () => console.log("Up & RUnning *8080"));
