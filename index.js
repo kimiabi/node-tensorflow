@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const db = require("./config");
+// const db = require("./config");
 const app = express();
+const suggestionsController = require('./controllers/suggestions'); 
 app.use(express.json());
 app.use(cors());
 
@@ -18,7 +19,19 @@ app.post("/create-collections", async (req, res) => {
             });
     });
     
-    res.send({ msg: "User Added" });
+    res.send({ msg: "Added" });
 });
+
+// app.get("/collection/", async (req, res) => {
+//     const name = req.query.name;
+//     const snapshot = await db.collection(name).get();
+//     const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+//     res.send(list);
+//     suggestionsController.print;
+// });
+
+app.get("/collection/", suggestionsController.print);
+
+
 
 app.listen(4000, () => console.log("Up & RUnning *4000"));
