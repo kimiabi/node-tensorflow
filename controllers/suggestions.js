@@ -28,6 +28,7 @@ async function getProductByCategory(req, res) {
 
 async function procesingData(req, res) {
     // const key = req.query.key;
+    const userId = req.query.userId;
 
     const snapshot = await db.collection("searchModels").orderBy("registration","desc") .get();
     const searchs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -39,19 +40,24 @@ async function procesingData(req, res) {
     const categoryId = search.categoryId;
     const key = search.key;
 
-    //const products = await getProducts(categoryId);
+    
+    //TRAE EL PRODUCTO CON CATEGORIAS
+    const snapshot2 = await db.collection("products").where("categoryId", "==", categoryId).get();
+    const products = snapshot2.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
-    // products.filter(product => product.includes(key));
+    products.forEach(product => {
+        product.productId = product.id;
+        product.userId = userId;
+    });
 
-    // products.filter(product => product.categoryId.includes(key));
-
-    // const snapshot2 = await db.collection("products").where("categoryId", "==", categoryId).get();
-    // const products = snapshot2.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
+    const suggestion = {
+        name: "productsSuggestionsModels",
+        products: products
+    }
 
     console.log(categoryId + " -" + key);
 
-    res.send(products);
+    res.send(suggestion);
 }
 
 async function getProducts(categoryId) {
