@@ -10,7 +10,7 @@ const firebaseConfig = {
     measurementId: "G-2VZ8D9CT0S"
 };
 
-var serviceAccount = require("/home/alex/easyget-km-f533f20a08d7.json");
+var serviceAccount = require("./easyget-km-f533f20a08d7.json");
 
 
 firebase.initializeApp({
