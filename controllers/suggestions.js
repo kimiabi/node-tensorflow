@@ -9,9 +9,20 @@ async function print(req, res) {
 
 async function getProductByCategory(req, res) {
     const categoryId = req.query.categoryId;
+    const userId = req.query.userId;
     const snapshot = await db.collection("products").where("categoryId", "==", categoryId).get();
     const products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    res.send(products);
+
+    products.forEach(product => {
+        product.productId = product.id; 
+        product.userId = userId;
+    });
+
+    const suggestion = {
+        name:"productsSuggestionsModels",
+        products: products
+    }
+    res.send(suggestion);
 }
 
 
